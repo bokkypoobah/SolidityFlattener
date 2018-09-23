@@ -9,23 +9,31 @@
 
 use strict;
 use Getopt::Long qw(:config no_auto_abbrev);
+use File::Basename;
+use File::Spec::Functions;
 
 my $DEFAULTCONTRACTSDIR = "./contracts";
 
 my $helptext = qq\
-Solidity Flattener v1.0 Sep 24 2018. https://github.com/bokkypoobah/SolidityFlattener
+Solidity Flattener v1.00
 
 Usage: $0 {options}
 
-Options are:
+Where options are:
   --contractsdir  Source directory for original contracts. Default '$DEFAULTCONTRACTSDIR'.
   --mainsol       Main source Solidity file. Mandatory
-  --outputsol     Output flattened Solidity file. Default is the mainsol with `_flattened` appended to the file name
+  --outputsol     Output flattened Solidity file. Default is mainsol with `_flattened` appended to the file name
   --verbose       Show details. Optional
   --help          Display help. Optional
 
 Example usage:
   $0 --contractsdir=contracts --mainsol=MyContract.sol --outputsol=flattened/MyContracts_flattened.sol --verbose
+
+Installation:
+  Download solidityFlattener.pl from https://github.com/bokkypoobah/SolidityFlattener into /usr/local/bin
+  chmod 755 /usr/local/bin/solidityFlattener.pl
+
+Works on OS/X, Linux and Linux on Windows.
 
 Enjoy. (c) BokkyPooBah / Bok Consulting Pty Ltd 2018. The MIT Licence.
 
@@ -65,23 +73,26 @@ if (defined $verbose) {
 open OUTPUT, ">$outputsol"
   or die "Cannot open $outputsol for writing. Stopped";
 
-processSol($mainsol, 0);
+processSol(catfile($contractsdir, $mainsol), 0);
 
 close OUTPUT
   or die "Cannot close $outputsol. Stopped";
 
 exit;
 
+
 # ------------------------------------------------------------------------------
 # Process Solidity file
 # ------------------------------------------------------------------------------
 sub processSol {
   my ($sol, $level) = @_;
-  $seen{$sol} = 1;
-  printf "%sProcessing %s/%s\n", "  " x $level, $contractsdir, $sol
+  my $dir = dirname($sol);
+  my $file = basename($sol);
+  $seen{$file} = 1;
+  printf "%sProcessing %s\n", "    " x $level, $sol
     if defined $verbose;
 
-  open INPUT, "<$contractsdir/$sol"
+  open INPUT, "<$sol"
     or die "Cannot open $sol for reading. Stopped";
   my @lines = <INPUT>;
   close INPUT
@@ -93,13 +104,14 @@ sub processSol {
       my $importfile = $line;
       $importfile =~ s/import \"//;
       $importfile =~ s/\";//;
-      if ($seen{$importfile}) {
-        printf "%s  Already Imported %s\n", "  " x $level, $importfile
+      $file = basename($importfile);
+      if ($seen{$file}) {
+        printf "%s    Already Imported %s\n", "    " x $level, catfile($dir, $importfile)
           if defined $verbose;
       } else {
-        printf "%s  Importing %s\n", "  " x $level, $importfile
+        printf "%s    Importing %s\n", "    " x $level, catfile($dir, $importfile)
           if defined $verbose;
-        processSol($importfile, $level + 1)
+        processSol(catfile($dir, $importfile), $level + 1)
       }
     } else {
       if ($level == 0 || !($line =~ /^pragma/)) {
