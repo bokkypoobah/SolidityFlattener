@@ -1,5 +1,12 @@
 # Solidity Flattener
 
+Flatten multiple Solidity files into a single Solidity file so:
+
+* You can load your project in http://remix.ethereum.org
+* Verify your source code on [etherscan.io](https://etherscan.io/) or [etherchain.org](https://www.etherchain.org)
+
+<br />
+
 ```
 Solidity Flattener v1.0.0
 
