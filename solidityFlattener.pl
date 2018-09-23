@@ -15,14 +15,17 @@ my $DEFAULTCONTRACTSDIR = "./contracts";
 my $helptext = qq\
 Solidity Flattener v1.0 Sep 24 2018. https://github.com/bokkypoobah/SolidityFlattener
 
-Usage: $0 {command}
+Usage: $0 {options}
 
-Commands are:
+Options are:
   --contractsdir  Source directory for original contracts. Default '$DEFAULTCONTRACTSDIR'.
-  --mainsol       Main source Solidity file
-  --outputsol     Output flattened Solidity file
-  --verbose       Display what this script is doing.
-  --help
+  --mainsol       Main source Solidity file. Mandatory
+  --outputsol     Output flattened Solidity file. Default is the mainsol with `_flattened` appended to the file name
+  --verbose       Show details. Optional
+  --help          Display help. Optional
+
+Example usage:
+  $0 --contractsdir=contracts --mainsol=MyContract.sol --outputsol=flattened/MyContracts_flattened.sol --verbose
 
 Enjoy. (c) BokkyPooBah / Bok Consulting Pty Ltd 2018. The MIT Licence.
 
@@ -100,7 +103,7 @@ sub processSol {
       }
     } else {
       if ($level == 0 || !($line =~ /^pragma/)) {
-        printf OUTPUT "%s\n", $line;        
+        printf OUTPUT "%s\n", $line;
       }
     }
   }
