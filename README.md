@@ -1,7 +1,7 @@
 # Solidity Flattener
 
 ```
-Solidity Flattener v1.00
+Solidity Flattener v1.0.0
 
 Usage: solidityFlattener.pl {options}
 

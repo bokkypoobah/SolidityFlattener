@@ -15,7 +15,7 @@ use File::Spec::Functions;
 my $DEFAULTCONTRACTSDIR = "./contracts";
 
 my $helptext = qq\
-Solidity Flattener v1.00
+Solidity Flattener v1.0.0
 
 Usage: $0 {options}
 
