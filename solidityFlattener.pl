@@ -96,7 +96,7 @@ sub processSol {
     or die "Cannot open $sol for reading. Stopped";
   my @lines = <INPUT>;
   close INPUT
-    or die "Cannot close $outputsol. Stopped";
+    or die "Cannot close $sol. Stopped";
 
   for my $line (@lines) {
     chomp $line;
