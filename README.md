@@ -45,7 +45,7 @@ Enjoy. (c) BokkyPooBah / Bok Consulting Pty Ltd 2018. The MIT Licence.
 
 See the examples in the [test](test) subdirectory, one of which is shown below.
 
-Main Solidity file [test/subdir_contracts/Subdirexample.sol](test/subdir_contracts/SubdirExample.sol):
+Main Solidity file [test/subdir_contracts/SubdirExample.sol](test/subdir_contracts/SubdirExample.sol):
 
 ```solidity
 pragma solidity ^0.4.24;
@@ -99,7 +99,7 @@ Processing subdir_contracts/SubdirExample.sol
     Already Imported subdir_contracts/dir01/Dir02file.sol
 ```
 
-To produce the flattened file [test/subdir_contracts/Subdirexample_flattened.sol](test/subdir_contracts/Subdirexample_flattened.sol):
+To produce the flattened file [test/subdir_contracts/SubdirExample_flattened.sol](test/subdir_contracts/SubdirExample_flattened.sol):
 
 ```solidity
 pragma solidity ^0.4.24;
