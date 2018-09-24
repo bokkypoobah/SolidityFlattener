@@ -99,7 +99,7 @@ Processing subdir_contracts/SubdirExample.sol
     Already Imported subdir_contracts/dir01/Dir02file.sol
 ```
 
-To produce the flattened file [test/subdir_contracts/SubdirExample_flattened.sol](test/subdir_contracts/SubdirExample_flattened.sol):
+To produce the flattened file [test/SubdirExample_flattened.sol](test/SubdirExample_flattened.sol):
 
 ```solidity
 pragma solidity ^0.4.24;
