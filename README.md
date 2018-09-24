@@ -45,6 +45,8 @@ Enjoy. (c) BokkyPooBah / Bok Consulting Pty Ltd 2018. The MIT Licence.
 
 See the examples in the [test](test) subdirectory, one of which is shown below.
 
+### Example 1
+
 Main Solidity file [test/subdir_contracts/SubdirExample.sol](test/subdir_contracts/SubdirExample.sol):
 
 ```solidity
@@ -101,7 +103,7 @@ Processing subdir_contracts/SubdirExample.sol
     Already Imported subdir_contracts/dir01/Dir02file.sol
 ```
 
-To produce the flattened file [test/SubdirExample_flattened.sol](test/SubdirExample_flattened.sol):
+to produce the flattened file [test/SubdirExample_flattened.sol](test/SubdirExample_flattened.sol):
 
 ```solidity
 pragma solidity ^0.4.24;
@@ -128,6 +130,32 @@ contract Main is Dir01file {
 ```
 
 The contents of the output can be loaded directly into [Remix](http://remix.ethereum.org/) or used for code verification on the Ethereum block explorers.
+
+<br />
+
+### Example 2
+
+Main Solidity file [test/mintabletoken_contracts/MintableToken.sol](test/mintabletoken_contracts/MintableToken.sol).
+
+From the [test](test) subdirectory, run the following command:
+
+```bash
+test $ solidityFlattener.pl --contractsdir=mintabletoken_contracts --mainsol=MintableToken.sol --outputsol=MintableToken_flattened.sol --verbose
+contractsdir: mintabletoken_contracts
+mainsol     : MintableToken.sol
+outputsol   : MintableToken_flattened.sol
+Processing mintabletoken_contracts/MintableToken.sol
+    Importing mintabletoken_contracts/SafeMath.sol
+    Processing mintabletoken_contracts/SafeMath.sol
+    Importing mintabletoken_contracts/MintableTokenInterface.sol
+    Processing mintabletoken_contracts/MintableTokenInterface.sol
+        Importing mintabletoken_contracts/ERC20Interface.sol
+        Processing mintabletoken_contracts/ERC20Interface.sol
+    Importing mintabletoken_contracts/Owned.sol
+    Processing mintabletoken_contracts/Owned.sol
+```
+
+To produce the flattened file [test/MintableToken_flattened.sol](test/MintableToken_flattened.sol):
 
 <br />
 
