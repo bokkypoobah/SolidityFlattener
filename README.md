@@ -63,6 +63,8 @@ contract Main is Dir01file {
 First import file [test/subdir_contracts/dir01/Dir01file.sol](test/subdir_contracts/dir01/Dir01file.sol):
 
 ```solidity
+pragma solidity ^0.4.24;
+
 import "../dir02/Dir02file.sol";
 
 contract Dir01file is Dir02file {
@@ -103,6 +105,7 @@ To produce the flattened file [test/SubdirExample_flattened.sol](test/SubdirExam
 
 ```solidity
 pragma solidity ^0.4.24;
+
 
 
 contract Dir02file {
