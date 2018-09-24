@@ -7,6 +7,10 @@ Flatten multiple Solidity files into a single Solidity file so:
 
 <br />
 
+<hr />
+
+## Usage
+
 ```
 Solidity Flattener v1.0.0
 
@@ -30,3 +34,48 @@ Works on OS/X, Linux and Linux on Windows.
 
 Enjoy. (c) BokkyPooBah / Bok Consulting Pty Ltd 2018. The MIT Licence.
 ```
+
+<br />
+
+<hr />
+
+## Sample Usage
+
+Sample usage on [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-solidity)'s [ERC20Mintable.sol](https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/token/ERC20/ERC20Mintable.sol):
+
+```
+$ solidityFlattener.pl --contractsdir=contracts --mainsol=token/ERC20/ERC20Mintable.sol --outputsol=/tmp/ERC20Mintable_flattened.sol --verbose
+contractsdir: contracts
+mainsol     : token/ERC20/ERC20Mintable.sol
+outputsol   : /tmp/ERC20Mintable_flattened.sol
+Processing contracts/token/ERC20/ERC20Mintable.sol
+    Importing contracts/token/ERC20/ERC20.sol
+    Processing contracts/token/ERC20/ERC20.sol
+        Importing contracts/token/ERC20/IERC20.sol
+        Processing contracts/token/ERC20/IERC20.sol
+        Importing contracts/token/ERC20/../../math/SafeMath.sol
+        Processing contracts/token/ERC20/../../math/SafeMath.sol
+    Importing contracts/token/ERC20/../../access/roles/MinterRole.sol
+    Processing contracts/token/ERC20/../../access/roles/MinterRole.sol
+        Importing contracts/token/ERC20/../../access/roles/../Roles.sol
+        Processing contracts/token/ERC20/../../access/roles/../Roles.sol
+```
+
+Structure of the generated output file:
+```
+$ egrep -e "library |contract |interface " /tmp/ERC20Mintable_flattened.sol
+interface IERC20 {
+library SafeMath {
+contract ERC20 is IERC20 {
+library Roles {
+contract MinterRole {
+contract ERC20Mintable is ERC20, MinterRole {
+```
+
+The contents of the output can be loaded directly into [Remix](http://remix.ethereum.org/) or used for code verification on the Ethereum block explorers.
+
+<br />
+
+<br />
+
+(c) BokkyPooBah / Bok Consulting Pty Ltd - Sep 24 2018. The MIT Licence.
