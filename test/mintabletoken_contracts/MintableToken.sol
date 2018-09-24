@@ -64,7 +64,7 @@ contract MintableToken is MintableTokenInterface, Owned {
         return _decimals;
     }
     function totalSupply() public view returns (uint) {
-        return _totalSupply - balances[address(0)];
+        return _totalSupply.sub(balances[address(0)]);
     }
     function balanceOf(address tokenOwner) public view returns (uint balance) {
         return balances[tokenOwner];
