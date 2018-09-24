@@ -68,7 +68,7 @@ if (!defined $outputsol) {
 
 if (defined $verbose) {
   printf "contractsdir: %s\n", $contractsdir;
-  printf "remapdir    : %s\n", $remapdir;
+  printf "remapdir    : %s\n", defined $remapdir ? $remapdir : "(no remapping)";
   printf "mainsol     : %s\n", $mainsol;
   printf "outputsol   : %s\n", $outputsol
 }
