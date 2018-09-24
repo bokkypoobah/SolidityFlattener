@@ -1,9 +1,11 @@
 # Solidity Flattener
 
-Flatten multiple Solidity files into a single Solidity file so:
+Flatten multiple Solidity files into a single Solidity file so you can:
 
-* You can load your project in http://remix.ethereum.org
-* Verify your source code on [etherscan.io](https://etherscan.io/) or [etherchain.org](https://www.etherchain.org)
+* load your project in http://remix.ethereum.org
+* verify your source code on [etherscan.io](https://etherscan.io/) or [etherchain.org](https://www.etherchain.org)
+
+This Solidity Flattener was created for easy inclusion into your Solidity project, and to incorporate it into your build scripts.
 
 <br />
 
@@ -41,35 +43,85 @@ Enjoy. (c) BokkyPooBah / Bok Consulting Pty Ltd 2018. The MIT Licence.
 
 ## Sample Usage
 
-Sample usage on [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-solidity)'s [ERC20Mintable.sol](https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/token/ERC20/ERC20Mintable.sol):
+See the examples in the [test](test) subdirectory, one of which is shown below.
 
-```
-$ solidityFlattener.pl --contractsdir=contracts --mainsol=token/ERC20/ERC20Mintable.sol --outputsol=/tmp/ERC20Mintable_flattened.sol --verbose
-contractsdir: contracts
-mainsol     : token/ERC20/ERC20Mintable.sol
-outputsol   : /tmp/ERC20Mintable_flattened.sol
-Processing contracts/token/ERC20/ERC20Mintable.sol
-    Importing contracts/token/ERC20/ERC20.sol
-    Processing contracts/token/ERC20/ERC20.sol
-        Importing contracts/token/ERC20/IERC20.sol
-        Processing contracts/token/ERC20/IERC20.sol
-        Importing contracts/token/ERC20/../../math/SafeMath.sol
-        Processing contracts/token/ERC20/../../math/SafeMath.sol
-    Importing contracts/token/ERC20/../../access/roles/MinterRole.sol
-    Processing contracts/token/ERC20/../../access/roles/MinterRole.sol
-        Importing contracts/token/ERC20/../../access/roles/../Roles.sol
-        Processing contracts/token/ERC20/../../access/roles/../Roles.sol
+Main Solidity file [test/subdir_contracts/Subdirexample.sol](test/subdir_contracts/SubdirExample.sol):
+
+```solidity
+pragma solidity ^0.4.24;
+
+import "dir01/Dir01file.sol";
+import "dir01/Dir02file.sol";
+
+contract Main is Dir01file {
+    function returnSomething() public pure returns (uint) {
+        return super.returnSomething();
+    }
+}
 ```
 
-Structure of the generated output file:
+First import file [test/subdir_contracts/dir01/Dir01file.sol](test/subdir_contracts/dir01/Dir01file.sol):
+
+```solidity
+import "../dir02/Dir02file.sol";
+
+contract Dir01file is Dir02file {
+    function returnSomething() public pure returns (uint) {
+        return super.returnSomething();
+    }
+}
 ```
-$ egrep -e "library |contract |interface " /tmp/ERC20Mintable_flattened.sol
-interface IERC20 {
-library SafeMath {
-contract ERC20 is IERC20 {
-library Roles {
-contract MinterRole {
-contract ERC20Mintable is ERC20, MinterRole {
+
+Second import file [test/subdir_contracts/dir02/Dir02file.sol](test/subdir_contracts/dir02/Dir02file.sol):
+
+```solidity
+pragma solidity ^0.4.24;
+
+contract Dir02file {
+    function returnSomething() public pure returns (uint) {
+        return 123;
+    }
+}
+```
+
+From the [test](test) subdirectory, run the following command:
+
+```sh
+$ solidityFlattener.pl --contractsdir=subdir_contracts --mainsol=SubdirExample.sol --outputsol=SubdirExample_flattened.sol --verbose
+contractsdir: subdir_contracts
+mainsol     : SubdirExample.sol
+outputsol   : SubdirExample_flattened.sol
+Processing subdir_contracts/SubdirExample.sol
+    Importing subdir_contracts/dir01/Dir01file.sol
+    Processing subdir_contracts/dir01/Dir01file.sol
+        Importing subdir_contracts/dir01/../dir02/Dir02file.sol
+        Processing subdir_contracts/dir01/../dir02/Dir02file.sol
+    Already Imported subdir_contracts/dir01/Dir02file.sol
+```
+
+To produce the flattened file [test/subdir_contracts/Subdirexample_flattened.sol](test/subdir_contracts/Subdirexample_flattened.sol):
+
+```solidity
+pragma solidity ^0.4.24;
+
+
+contract Dir02file {
+    function returnSomething() public pure returns (uint) {
+        return 123;
+    }
+}
+
+contract Dir01file is Dir02file {
+    function returnSomething() public pure returns (uint) {
+        return super.returnSomething();
+    }
+}
+
+contract Main is Dir01file {
+    function returnSomething() public pure returns (uint) {
+        return super.returnSomething();
+    }
+}
 ```
 
 The contents of the output can be loaded directly into [Remix](http://remix.ethereum.org/) or used for code verification on the Ethereum block explorers.
