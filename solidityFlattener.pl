@@ -1,6 +1,6 @@
 #!/usr/bin/perl -W
 # ----------------------------------------------------------------------------------------------
-# Solidity Flattener
+# Solidity Flattener v1.0.1
 #
 # https://github.com/bokkypoobah/SolidityFlattener
 #
@@ -15,12 +15,13 @@ use File::Spec::Functions;
 my $DEFAULTCONTRACTSDIR = "./contracts";
 
 my $helptext = qq\
-Solidity Flattener v1.0.0
+Solidity Flattener v1.0.1
 
 Usage: $0 {options}
 
 Where options are:
-  --contractsdir  Source directory for original contracts. Default '$DEFAULTCONTRACTSDIR'.
+  --contractsdir  Source directory for original contracts. Default '$DEFAULTCONTRACTSDIR'
+  --remapdir      Remap import directories. Optional. Example "contracts/openzeppelin-solidity=node_modules/openzeppelin-solidity"
   --mainsol       Main source Solidity file. Mandatory
   --outputsol     Output flattened Solidity file. Default is mainsol with `_flattened` appended to the file name
   --verbose       Show details. Optional
@@ -39,11 +40,12 @@ Enjoy. (c) BokkyPooBah / Bok Consulting Pty Ltd 2018. The MIT Licence.
 
 Stopped\;
 
-my ($contractsdir, $mainsol, $outputsol, $help, $verbose);
+my ($contractsdir, $remapdir, $mainsol, $outputsol, $help, $verbose);
 my %seen = ();
 
 GetOptions(
   "contractsdir:s" => \$contractsdir,
+  "remapdir:s"     => \$remapdir,
   "mainsol:s"      => \$mainsol,
   "outputsol:s"    => \$outputsol,
   "verbose"        => \$verbose,
@@ -66,6 +68,7 @@ if (!defined $outputsol) {
 
 if (defined $verbose) {
   printf "contractsdir: %s\n", $contractsdir;
+  printf "remapdir    : %s\n", $remapdir;
   printf "mainsol     : %s\n", $mainsol;
   printf "outputsol   : %s\n", $outputsol
 }
@@ -86,6 +89,18 @@ exit;
 # ------------------------------------------------------------------------------
 sub processSol {
   my ($sol, $level) = @_;
+  if (defined $remapdir) {
+    my ($splitfrom, $splitto) = split /=/, $remapdir;
+    # printf "%sSplit %s: %s => %s\n", "    " x $level, $remapdir, $splitfrom, $splitto
+    #   if defined $verbose;
+    if ($sol =~ /$splitfrom/) {
+      printf "%sRemapping %s\n", "    " x $level, $sol
+        if defined $verbose;
+      $sol =~ s!$splitfrom!$splitto!;
+      printf "%s       to %s\n", "    " x $level, $sol
+        if defined $verbose;
+    }
+  }
   my $dir = dirname($sol);
   my $file = basename($sol);
   $seen{$file} = 1;
