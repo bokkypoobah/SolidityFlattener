@@ -88,8 +88,8 @@ contract Dir02file {
 
 From the [test](test) subdirectory, run the following command:
 
-```sh
-$ solidityFlattener.pl --contractsdir=subdir_contracts --mainsol=SubdirExample.sol --outputsol=SubdirExample_flattened.sol --verbose
+```bash
+test $ solidityFlattener.pl --contractsdir=subdir_contracts --mainsol=SubdirExample.sol --outputsol=SubdirExample_flattened.sol --verbose
 contractsdir: subdir_contracts
 mainsol     : SubdirExample.sol
 outputsol   : SubdirExample_flattened.sol
