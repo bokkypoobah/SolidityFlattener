@@ -22,6 +22,15 @@ v1.0.1  | Sep 24 2018 | Ability to remap directory to handle OpenZeppelin npm in
 
 <hr />
 
+## Installation
+
+* Download [solidityFlattener.pl](solidityFlattener.pl) into `/usr/local/bin`, or into your Solidity project `scripts` folder
+* `chmod 755 /usr/local/bin/solidityFlattener.pl` or adjust for your download location
+
+<br />
+
+<hr />
+
 ## Usage
 
 ```
@@ -145,6 +154,8 @@ The contents of the output can be loaded directly into [Remix](http://remix.ethe
 
 <br />
 
+<hr />
+
 ### Example 2 - Simple MintableToken
 
 Main Solidity file [test/mintabletoken_contracts/MintableToken.sol](test/mintabletoken_contracts/MintableToken.sol).
@@ -170,6 +181,8 @@ Processing mintabletoken_contracts/MintableToken.sol
 To produce the flattened file [test/MintableToken_flattened.sol](test/MintableToken_flattened.sol).
 
 <br />
+
+<hr />
 
 ### Example 3 - MintableToken With OpenZeppelin Npm Mapping
 
