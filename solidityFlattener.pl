@@ -1,6 +1,6 @@
 #!/usr/bin/perl -W
 # ----------------------------------------------------------------------------------------------
-# Solidity Flattener v1.0.1
+# Solidity Flattener v1.0.2
 #
 # https://github.com/bokkypoobah/SolidityFlattener
 #
@@ -13,9 +13,10 @@ use File::Basename;
 use File::Spec::Functions;
 
 my $DEFAULTCONTRACTSDIR = "./contracts";
+my $VERSION = "v1.0.2";
 
 my $helptext = qq\
-Solidity Flattener v1.0.1
+Solidity Flattener $VERSION
 
 Usage: $0 {options}
 
@@ -118,7 +119,7 @@ sub processSol {
     if ($line =~ /^import/) {
       my $importfile = $line;
       $importfile =~ s/import \"//;
-      $importfile =~ s/\";//;
+      $importfile =~ s/\";.*$//;
       $file = basename($importfile);
       if ($seen{$file}) {
         printf "%s    Already Imported %s\n", "    " x $level, catfile($dir, $importfile)

@@ -17,6 +17,7 @@ Version | Date | Notes
 :------ |:---- |:-----
 v1.0.0  | Sep 24 2018 | First version
 v1.0.1  | Sep 24 2018 | Ability to remap directory to handle OpenZeppelin npm installation
+v1.0.2  | Sep 25 2018 | Tidy remapdir verbose message, handle comments after import statement
 
 <br />
 
@@ -34,7 +35,7 @@ v1.0.1  | Sep 24 2018 | Ability to remap directory to handle OpenZeppelin npm in
 ## Usage
 
 ```
-Solidity Flattener v1.0.1
+Solidity Flattener v1.0.2
 
 Usage: solidityFlattener.pl {options}
 
@@ -114,6 +115,7 @@ From the [test](test) subdirectory, run the following command:
 ```bash
 test $ solidityFlattener.pl --contractsdir=subdir_contracts --mainsol=SubdirExample.sol --outputsol=SubdirExample_flattened.sol --verbose
 contractsdir: subdir_contracts
+remapdir    : (no remapping)
 mainsol     : SubdirExample.sol
 outputsol   : SubdirExample_flattened.sol
 Processing subdir_contracts/SubdirExample.sol
@@ -165,6 +167,7 @@ From the [test](test) subdirectory, run the following command:
 ```bash
 test $ solidityFlattener.pl --contractsdir=mintabletoken_contracts --mainsol=MintableToken.sol --outputsol=MintableToken_flattened.sol --verbose
 contractsdir: mintabletoken_contracts
+remapdir    : (no remapping)
 mainsol     : MintableToken.sol
 outputsol   : MintableToken_flattened.sol
 Processing mintabletoken_contracts/MintableToken.sol
@@ -225,4 +228,4 @@ To produce the flattened file [test/MyOzToken_flattened.sol](test/MyOzToken_flat
 
 <br />
 
-(c) BokkyPooBah / Bok Consulting Pty Ltd - Sep 24 2018. The MIT Licence.
+(c) BokkyPooBah / Bok Consulting Pty Ltd - Sep 25 2018. The MIT Licence.
