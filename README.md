@@ -18,6 +18,7 @@ Version | Date | Notes
 v1.0.0  | Sep 24 2018 | First version
 v1.0.1  | Sep 24 2018 | Ability to remap directory to handle OpenZeppelin npm installation
 v1.0.2  | Sep 25 2018 | Tidy remapdir verbose message, handle comments after import statement
+v1.0.3  | Oct 16 2018 | Handle single quotes as well as double quotes around the imported file
 
 <br />
 
@@ -35,7 +36,7 @@ v1.0.2  | Sep 25 2018 | Tidy remapdir verbose message, handle comments after imp
 ## Usage
 
 ```
-Solidity Flattener v1.0.2
+Solidity Flattener v1.0.3
 
 Usage: solidityFlattener.pl {options}
 
