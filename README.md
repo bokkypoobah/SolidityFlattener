@@ -1,3 +1,9 @@
+<kbd><img src="images/PrincessLeiaPeachExpelsARainbowBigBang-SolidityFlattener-940x198.png" /></kbd>
+
+<br />
+
+<hr />
+
 # Solidity Flattener
 
 Flatten multiple Solidity files into a single Solidity file so you can:
